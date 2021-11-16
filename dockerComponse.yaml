@@ -1,0 +1,25 @@
+version: "3"
+services:
+  api-service:
+    image: node:14
+    container_name: auth_api
+    volumes:
+      - ./node_modules:/node_modules
+      - ./api:/api
+      - .shared:/shared
+      - ./tsconfig.json:/tsconfig.json
+      - ./package.json:/package.json
+    ports:
+      - "3001:3000"
+    working_dir: /
+    command: npm run ts-node-dev --project api/tsconfig.json -r tsconfig-paths/register api/index.ts
+    env_file: .env
+
+  mongodb:
+    image: mongo:5
+    container_name: auth_mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123**
